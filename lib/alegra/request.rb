@@ -19,10 +19,10 @@ module Alegra
         req.headers['Authorization'] = "Basic #{@token}"
       end
 
-      raise if response.status == 429
+      raise StandardError.new if response.status == 429
 
       response_of_request(response, options)
-    rescue => e
+    rescue StandardError
       sleep(60)
       retry
     end
@@ -37,11 +37,11 @@ module Alegra
         req.body = params
       end
 
-      raise if response.status == 429
+      raise StandardError.new if response.status == 429
 
       response_of_request(response, options)
 
-    rescue => e
+    rescue StandardError
       sleep(60)
       retry
     end
@@ -56,11 +56,11 @@ module Alegra
         req.body = params
       end
 
-      raise if response.status == 429
+      raise StandardError.new if response.status == 429
 
       response_of_request(response, options)
 
-    rescue => e
+    rescue StandardError
       sleep(60)
       retry
     end
@@ -75,11 +75,11 @@ module Alegra
         req.body = params
       end
 
-      raise if response.status == 429
+      raise StandardError.new if response.status == 429
 
       response_of_request(response, options)
 
-    rescue => e
+    rescue StandardError
       sleep(60)
       retry
     end
