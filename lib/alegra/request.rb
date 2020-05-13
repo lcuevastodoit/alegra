@@ -18,7 +18,13 @@ module Alegra
         req.headers['Accept'] = 'application/json'
         req.headers['Authorization'] = "Basic #{@token}"
       end
+
+      raise if response.status == 429
+
       response_of_request(response, options)
+    rescue => e
+      sleep(60)
+      retry
     end
 
     def post(url, params = {}, options = { format: :formated })
@@ -30,7 +36,14 @@ module Alegra
         req.headers['Authorization'] = "Basic #{ @token }"
         req.body = params
       end
+
+      raise if response.status == 429
+
       response_of_request(response, options)
+
+    rescue => e
+      sleep(60)
+      retry
     end
 
     def put(url, params={}, options = { format: :formated })
@@ -42,7 +55,14 @@ module Alegra
         req.headers['Authorization'] = "Basic #{ @token }"
         req.body = params
       end
+
+      raise if response.status == 429
+
       response_of_request(response, options)
+
+    rescue => e
+      sleep(60)
+      retry
     end
 
     def delete(url, params={}, options = { format: :formated })
@@ -51,10 +71,17 @@ module Alegra
         req.url "#{ @path }#{ url }"
         req.headers['Content-Type'] = 'application/json'
         req.headers['Accept'] = 'application/json'
-        req.headers['Authorization'] = "Basic #{ @token }"
+        req.headers['Authorization'] = "Basic #{@token}"
         req.body = params
       end
+
+      raise if response.status == 429
+
       response_of_request(response, options)
+
+    rescue => e
+      sleep(60)
+      retry
     end
 
     private
@@ -77,7 +104,7 @@ module Alegra
       message = request_parsed_response(response)
 
       error_map = {
-        500 => 'Sever error! Something were wrong in the server.',
+        500 => 'Server error! Something were wrong in the server.',
         400 => "Bad request!, #{message}",
         401 => 'Authentication error!',
         402 => 'Required payment!',
