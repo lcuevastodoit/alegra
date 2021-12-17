@@ -4,6 +4,7 @@ require 'alegra/record'
 require 'alegra/invoices'
 require 'alegra/contacts'
 require 'alegra/items'
+require 'alegra/taxes'
 require 'alegra/payments'
 require 'alegra/company'
 require 'alegra/users'
@@ -49,6 +50,10 @@ module Alegra
 
     def items
       Alegra::Items.new(self)
+    end
+
+    def taxes
+      Alegra::Taxes.new(self)
     end
 
     def payments
